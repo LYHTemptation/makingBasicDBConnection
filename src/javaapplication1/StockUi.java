@@ -186,12 +186,12 @@ public class StockUi extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(218, 218, 218))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(457, Short.MAX_VALUE))
+                .addGap(239, 239, 239))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(208, 208, 208)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(221, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,11 +234,38 @@ public class StockUi extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        // 수정 버튼 처리
+        String id=jTextField1.getText();
+        String name=jTextField2.getText();
+        String addr=jTextField3.getText();
+        int i=JOptionPane.showConfirmDialog(null, "ID:"+id+"\nNAME:"+name+"\nADDRESS:"+addr+"\n으로 수정하시겠습니까?");
+        System.out.println(i);
+        switch(i){
+            
+            case 0:
+                Member m=new Member(id, name, addr);
+                MyProtocol p=new MyProtocol(MyProtocol.signMsg[2], m, null);
+                JOptionPane.showMessageDialog(null, "수정되었습니다");
+        
+            try {
+                out.writeObject(p);
+            } catch (IOException ex) {
+                Logger.getLogger(StockUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        // 삭제 버튼 처리
+        String id= JOptionPane.showInputDialog("id를 입력하세요");
+        
+        try {
+            MyProtocol protocol=new MyProtocol(MyProtocol.signMsg[3], id, null);
+            out.writeObject(protocol);
+        } catch (IOException ex) {
+            Logger.getLogger(StockUi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

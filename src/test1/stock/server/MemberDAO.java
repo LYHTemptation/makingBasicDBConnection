@@ -55,10 +55,44 @@ public class MemberDAO {
         }
         return null;
     }
-    public void updatetMember(){
-    
+    public void updateMember(Member vo) throws Exception{
+         //1.드라이버 등록
+        Class.forName("org.mariadb.jdbc.Driver");
+       
+        //2.연결
+        Connection con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/testDB", "root","1234");
+        
+        //3.Statement 생성
+        PreparedStatement stmt=con.prepareStatement("update member set name=?, addr=? where id=?");
+        stmt.setString(3,vo.getId());
+        stmt.setString(1,vo.getName());
+        stmt.setString(2,vo.getAddr());
+        
+        //4.sql전송
+       int i=stmt.executeUpdate();
+        System.out.println(i+"행이 update 되었습니다");
+       
+        //6.자원 종료
+        stmt.close();
+        con.close();
     }
-    public void deletetMember(){
-    
+    public void deleteMember(String id) throws Exception{
+         //1.드라이버 등록
+        Class.forName("org.mariadb.jdbc.Driver");
+       
+                //2.연결
+        Connection con=DriverManager.getConnection("jdbc:mariadb://localhost:3306/testDB", "root", "1234");
+        //3. Statement 생성
+        PreparedStatement stmt=con.prepareStatement("delete from member where id=? ");
+        stmt.setString(1, id);
+           
+        //4. SQL 전송
+        int i=stmt.executeUpdate();
+        System.out.println(i+"행이 delete 되었습니다");
+        
+        //6. 자원 종료
+        stmt.close();
+        con.close();
+
     }
 }

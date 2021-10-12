@@ -61,7 +61,21 @@ public class StockServer {
                         }else{
                             out.writeObject(fm);
                         }
-                    }
+                    }else if(p.getSign().equals("UPDATE_MEMBER")){
+                     Member m=(Member)p.getParameterObj();
+                     MemberDAO memberDAO=new MemberDAO();
+                     memberDAO.updateMember(m);
+                 }else if(p.getSign().equals("DELETE_MEMBER")){
+                     String id=(String) p.getParameterObj();
+                    MemberDAO memberDAO=new MemberDAO();
+                    Member findMember=memberDAO.selectMember(id);
+                  if(findMember==null){
+                      out.writeObject("해당 고객 정보가 없습니다");
+                  }else{
+                      memberDAO.deleteMember(id);
+                      out.writeObject("정상적으로 삭제되었습니다");
+                  }
+                 }
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
